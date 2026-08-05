@@ -1,0 +1,36 @@
+2026-08-04T14:30:00Z [INFO] payment-api Request received: POST /api/v1/payments amount=99.99 user_id=user_123 trace_id=abc123
+2026-08-04T14:30:01Z [INFO] payment-api Processing payment for user_123 via stripe
+2026-08-04T14:30:02Z [WARN] payment-api Stripe API latency: 1200ms (threshold: 1000ms)
+2026-08-04T14:30:03Z [ERROR] payment-api Payment processing failed: card_declined trace_id=abc123
+2026-08-04T14:30:03Z [INFO] payment-api Returning 402 to client trace_id=abc123
+
+2026-08-04T14:32:00Z [INFO] order-service Order created: order_id=ord_456 user_id=user_789
+2026-08-04T14:32:01Z [INFO] order-service Publishing order event to Kafka
+2026-08-04T14:32:02Z [ERROR] order-service Kafka connection timeout after 5000ms
+2026-08-04T14:32:02Z [WARN] order-service Retrying Kafka publish (attempt 1/3)
+2026-08-04T14:32:04Z [INFO] order-service Kafka publish successful after retry
+
+2026-08-04T14:35:00Z [ERROR] user-service Database connection pool exhausted: 50/50 connections in use
+2026-08-04T14:35:01Z [ERROR] user-service FATAL: sorry, too many clients already
+2026-08-04T14:35:02Z [WARN] user-service Request queued for 3000ms waiting for DB connection
+2026-08-04T14:35:05Z [ERROR] user-service Request timeout: GET /api/v1/users/123 after 10000ms
+2026-08-04T14:35:05Z [INFO] user-service Returning 503 to client
+
+2026-08-04T14:38:00Z [INFO] inventory-service Cache miss for product_id=prod_999
+2026-08-04T14:38:01Z [INFO] inventory-service Fetching from database: SELECT * FROM inventory WHERE product_id='prod_999'
+2026-08-04T14:38:02Z [ERROR] inventory-service NullPointerException: Cannot read property 'quantity' of undefined
+    at getInventory (/app/src/inventory.js:45:12)
+    at processRequest (/app/src/handlers.js:112:8)
+2026-08-04T14:38:02Z [INFO] inventory-service Returning 500 to client
+
+2026-08-04T14:40:00Z [WARN] api-gateway Rate limit exceeded for client_id=client_abc
+2026-08-04T14:40:00Z [INFO] api-gateway Returning 429 to client
+2026-08-04T14:40:01Z [INFO] api-gateway Rate limit reset for client_id=client_abc
+
+2026-08-04T14:42:00Z [ERROR] notification-service SMTP connection failed: connection refused to smtp.provider.com:587
+2026-08-04T14:42:01Z [WARN] notification-service Email queued for retry in 60 seconds
+2026-08-04T14:43:01Z [INFO] notification-service Retry successful, email sent
+
+2026-08-04T14:45:00Z [INFO] monitoring-service Health check: all services green
+2026-08-04T14:45:01Z [WARN] monitoring-service CPU usage: 85% on node-worker-3 (threshold: 80%)
+2026-08-04T14:45:02Z [INFO] monitoring-service Auto-scaling triggered: adding 2 pods to user-service

@@ -1,0 +1,22 @@
+#streamlit run streamlit_app.py
+#Yeh dusre project ka virtual environment activate ho gaya hai. Chinta mat karo, yeh fix karte hain.
+#Option 1: Anaconda se chalao (Sabse aasaan — pehle bhi yahi chal raha tha)
+powershell
+#cd C:\Users\ASUS\Downloads\ai-devops-sre
+C:\Users\ASUS\anaconda3\python.exe -m uvicorn src.app:app --reload --app-dir .
+Option 2: Isi venv mein sab install karo
+powershell
+C:\Users\ASUS\Downloads\rescue_link_ai\venv\Scripts\python.exe -m pip install numpy scikit-learn joblib fastapi uvicorn requests pydantic python-dotenv langchain langchain-community langchain-huggingface chromadb sentence-transformers
+Uske baad:
+powershell
+cd C:\Users\ASUS\Downloads\ai-devops-sre
+C:\Users\ASUS\Downloads\rescue_link_ai\venv\Scripts\python.exe -m uvicorn src.app:app --reload --app-dir .
+Option 3: Global Python se chalao
+powershell
+cd C:\Users\ASUS\Downloads\ai-devops-sre
+python -m uvicorn src.app:app --reload --app-dir .
+Kya hua actually?
+Jab tum dusra project khola, uska venv activate ho gaya. Usmein numpy, scikit-learn waghera nahi tha. Isliye error aaya.
+Anaconda mein sab kuch pehle se installed hai, isliye wahan se chalane mein koi problem nahi hogi.
+Option 1 try karo — wahi chalega jo pehle chal raha tha!
+High demand. Switched to K2.6 Instant for speed. Upgrade to use K2.6 Thinking.

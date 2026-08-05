@@ -1,0 +1,68 @@
+app:
+  name: "AI DevOps SRE"
+  version: "1.0.0"
+  environment: "development"
+  port: 8000
+  log_level: "INFO"
+
+llm:
+  provider: "openai"
+  model: "gpt-4"
+  temperature: 0.2
+  max_tokens: 2000
+  local:
+    base_url: "http://localhost:11434"
+    model: "codellama:13b"
+
+rag:
+  vector_db_path: "./data/chroma_db"
+  embedding_model: "sentence-transformers/all-MiniLM-L6-v2"
+  chunk_size: 512
+  chunk_overlap: 50
+  top_k: 5
+
+ml:
+  model_path: "./data/models"
+  training_data_path: "./data/training"
+  retrain_interval_hours: 24
+  failure_prediction_threshold: 0.7
+
+parsers:
+  max_log_lines: 5000
+  timeout_seconds: 30
+  supported_formats: ["github_actions", "jenkins", "gitlab_ci", "circleci"]
+
+integrations:
+  github:
+    webhook_secret: ""
+    auto_merge: false
+    pr_branch_prefix: "sre-fix-"
+  kubernetes:
+    namespace: "default"
+    kubeconfig_path: "~/.kube/config"
+  docker:
+    registry: ""
+  terraform:
+    working_dir: "./terraform"
+
+fixers:
+  yaml:
+    backup_original: true
+    max_retries: 3
+  docker:
+    optimize_images: true
+  terraform:
+    auto_approve: false
+
+deployment:
+  strategy: "rolling"
+  health_check_timeout: 300
+  rollback_on_failure: true
+
+monitoring:
+  prometheus:
+    enabled: true
+    port: 9090
+  grafana:
+    enabled: true
+    port: 3000
