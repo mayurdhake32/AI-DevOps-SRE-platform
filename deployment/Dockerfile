@@ -2,24 +2,21 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y \
-    git \
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
+# Install Python dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Copy app code
 COPY . .
 
-RUN addgroup --system appgroup && adduser --system --group appuser
-USER appuser
-
-# Use $PORT so Render can assign whatever port it wants
+# Render assigns a dynamic port via $PORT env var
 EXPOSE 8000
 
-# For FastAPI backend:
+# Single CMD only - use $PORT so Render can assign any port
 CMD uvicorn app:app --host 0.0.0.0 --port ${PORT:-8000}
-
-# If this is the Streamlit frontend instead, use:
-# CMD streamlit run frontend/streamlit_app.py --server.port ${PORT:-8000} --server.address 0.0.0.0
