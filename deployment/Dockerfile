@@ -15,9 +15,11 @@ COPY . .
 RUN addgroup --system appgroup && adduser --system --group appuser
 USER appuser
 
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD curl -f http://localhost:8000/health || exit 1
-
+# Use $PORT so Render can assign whatever port it wants
 EXPOSE 8000
 
-CMD ["python", "app.py"]
+# For FastAPI backend:
+CMD uvicorn app:app --host 0.0.0.0 --port ${PORT:-8000}
+
+# If this is the Streamlit frontend instead, use:
+# CMD streamlit run frontend/streamlit_app.py --server.port ${PORT:-8000} --server.address 0.0.0.0
