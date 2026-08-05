@@ -1,35 +1,12 @@
-# Core
 fastapi==0.111.0
 uvicorn[standard]==0.30.0
 pydantic==2.7.0
 python-dotenv==1.0.1
 pyyaml==6.0.1
-
-# Streamlit UI
 streamlit==1.36.0
 requests==2.32.3
-
-# ML / NLP (use pre-built wheels only)
-scikit-learn==1.5.0
-numpy==1.26.4
-pandas==2.2.2
-joblib==1.4.2
-
-# RAG / Vector DB (lightweight)
-sentence-transformers==3.0.1
-chromadb==0.5.0
-
-# LLM
 openai==1.35.0
-
-# Parsers / Fixers
-python-hcl2==4.3.2
-dockerfile-parse==2.0.1
-
-# Integrations
 PyGithub==2.3.0
 httpx==0.27.0
-
-# Utils
 rich==13.7.1
 click==8.1.7
