@@ -1,0 +1,13 @@
+﻿__pycache__/
+*.pyc
+.env
+.env.local
+data/chroma_db/
+data/models/*.pkl
+*.pkl
+*.h5
+*.pt
+*.bin
+.vscode/
+.idea/
+*.log
