@@ -1,0 +1,44 @@
+services:
+  # Backend Service
+  - type: web
+    name: ai-sre-backend
+    runtime: python
+    plan: free
+    # IMPORTANT: Render reads runtime.txt for Python version
+    # Make sure runtime.txt is in repo root with: python-3.11.9
+    buildCommand: |
+      python -m pip install --upgrade pip
+      pip install -r requirements.txt
+    startCommand: uvicorn src.app:app --host 0.0.0.0 --port $PORT --workers 1
+    envVars:
+      - key: PYTHONPATH
+        value: /opt/render/project/src
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: APP_PORT
+        value: 8000
+      - key: LLM_MODEL
+        value: gpt-4
+      - key: LLM_BASE_URL
+        value: https://api.openai.com/v1
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: XAI_API_KEY
+        sync: false
+      - key: GITHUB_TOKEN
+        sync: false
+
+  # Frontend Service
+  - type: web
+    name: ai-sre-frontend
+    runtime: python
+    plan: free
+    buildCommand: |
+      python -m pip install --upgrade pip
+      pip install -r requirements.txt
+    startCommand: streamlit run streamlit_app.py --server.port=$PORT --server.address=0.0.0.0 --server.headless=true
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: API_BASE
+        value: https://ai-sre-backend.onrender.com
